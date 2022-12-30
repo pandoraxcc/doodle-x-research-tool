@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+<!-- Custom title -->
+{% block title %} 
+    Traceroute with location mapping 
+{% endblock title %}
+
+{% block body_data %}
+{% load static %}
+<div class="container" style="margin-bottom: 5rem; margin-top:5rem;">
+    <div class="row">
+        <div class="col">
+            <div class="mt-4 mb-4">
+                <h1 class="text-center">Traceroute your local network</h1>
+                <p class="text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus saepe esse suscipit unde, debitis officia nihil modi totam nemo facere adipisci repellat blanditiis aspernatur accusantium libero, ipsum voluptatem! Pariatur, deleniti!</p>
+                <img style="display:block;" class="mx-auto traceroute-image" src="{% static './img/traceroute/traceroute-your-network-pandorax.png' %}" alt="" width="30%">
+
+            </div>
+
+            <form method="post" action="." name="form-traceroute">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <div class="align-middle">
+                                <label style="display:block; text-align:right; padding-top: 5px;" class="" for="ip_addr">Adress:</label>
+                            </div>
+                
+                        </div>
+
+
+                        <div class="col">
+
+                            <input class="form-control mx-auto" type="text" id="ip_addr">
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-success my-auto traceroute-load" type="button" >Traceroute</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+            
+        </div>
+
+        <div class="row">
+            <div class="traceroute-results">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body_data %}
+
+{% block custom_js %}
+    <script src="{% static './js/js-processors/traceroute-processor.js' %}"></script>
+{% endblock custom_js%}

@@ -1,0 +1,12 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer-fixed {
+    position:absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+
+}

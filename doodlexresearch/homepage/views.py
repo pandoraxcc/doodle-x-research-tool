@@ -1,7 +1,17 @@
-from django.http import HttpResponse
-from django.template import loader
-import os
+from django.shortcuts import render
 
 def index(request):
-    template = loader.get_template('index.html')
-    return HttpResponse(template.render())
+    return render(request, "index.html")
+
+def traceroute(request):
+    if request.POST:
+        pass
+    return render(request, "traceroute.html")
+
+    
+"""
+def submit_request(request):
+    pass
+
+"""
+

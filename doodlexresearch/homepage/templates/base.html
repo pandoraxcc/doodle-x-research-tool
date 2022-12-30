@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Required to load the images -->
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static './css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js"></script>
+    <link rel="stylesheet" href="{% static './css/bootstrap.min.css' %}">
+    <script src="{% static './js/bootstrap.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.0/d3.js"></script>
+    <link rel="stylesheet" href="{% static './custom-css/styles.css' %}">
+
+
+
+    <!-- The custom title of the page -->
+
+    <title>
+
+    {% block title %}{% endblock title %}
+
+    </title>
+
+    <!-- The custom css files of any -->
+
+    {% block custom_css %}{% endblock custom_css %}
+</head>
+
+<body class="bg-light">
+
+    <header>
+        <!-- Menu section-->
+        <div class="container-fluid bg-dark">
+            <div class="row">
+                <div class="col mt-3">
+                    <img class="d-block" src="{% static './img/index/network-logo.png' %}" alt="" width="40%">
+                </div>
+    
+                <div class="col my-auto ml-0 pl-0">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Traceroute</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Network Scan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Port Scan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- The content of the other pages goes here -->
+
+    {% block body_data %}{% endblock body_data %}
+    <footer class="footer-fixed">
+        <div class="container-fluid bg-dark text-light p-4">
+            <div class="row">
+                <div class="col text-center" style="font-size:0.8rem">DoodleX network research tool, 2022</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom js files, if any -->
+
+    {% block custom_js %}{% endblock custom_js%}
+
+</body>
+</html>
