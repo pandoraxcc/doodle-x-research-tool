@@ -7,50 +7,45 @@
 
 {% block body_data %}
 {% load static %}
-<div class="container" style="margin-bottom: 5rem; margin-top:5rem;">
+<div class="container" style="margin-top:2rem;">
     <div class="row">
         <div class="col">
+            <!-- Section iwth title, description and image -->
             <div class="mt-4 mb-4">
                 <h1 class="text-center">Traceroute your local network</h1>
-                <p class="text-center">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus saepe esse suscipit unde, debitis officia nihil modi totam nemo facere adipisci repellat blanditiis aspernatur accusantium libero, ipsum voluptatem! Pariatur, deleniti!</p>
+                <p class="pt-2 text-center">The tool allows you to get the insight of how your packet travels from your network adapter to the destination. If you noticed several issues on internet connection, traceroute might help to gather the node that causes the issues. When the command is launched, we map the route of your packet to the destination ip, along with location, provider and other details.</p>
+                <p class="text-center">Please notice, some of the nodes might block ICMP due to several reasons, including firewalls settings. These are marked as *.</p>
                 <img style="display:block;" class="mx-auto traceroute-image" src="{% static './img/traceroute/traceroute-your-network-pandorax.png' %}" alt="" width="30%">
-
             </div>
-
-            <form method="post" action="." name="form-traceroute">
+            <!-- Section with 3 columns, including adress, input and submit button -->
+            <form name="form-traceroute" action="#">
                 <div class="form-group">
                     <div class="row">
                         <div class="col">
                             <div class="align-middle">
                                 <label style="display:block; text-align:right; padding-top: 5px;" class="" for="ip_addr">Adress:</label>
                             </div>
-                
                         </div>
 
-
                         <div class="col">
-
                             <input class="form-control mx-auto" type="text" id="ip_addr">
                         </div>
 
                         <div class="col">
                             <button class="btn btn-success my-auto traceroute-load" type="button" >Traceroute</button>
                         </div>
-
                     </div>
-
                 </div>
             </form>
             
-        </div>
-
-        <div class="row">
-            <div class="traceroute-results">
-
+            <!-- Here we load the status and the result of traceroute-->
+            <div class="row" style="margin-bottom: 5rem;">
+                <div class="traceroute-results mx-auto"></div>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock body_data %}
 
 {% block custom_js %}

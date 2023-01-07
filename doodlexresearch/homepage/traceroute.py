@@ -13,7 +13,7 @@ class Traceroute:
         # formatting the response after running traceroute
         self.clean_data = []
         # what defined as "local network"
-        self.network_classes = {"classA": 10, "classB": 172, "classC": 192}
+        self.network_classes = {"classA": "10", "classB": "172.16", "classC": "192.168"}
         # the list of ips for geo-lookup
         self.ips = []
         # geo-location details
@@ -21,7 +21,9 @@ class Traceroute:
 
 
     def process_traceroute(self):
-        """Perfoming initial traceroute"""
+        """
+        Perfoming initial traceroute
+        """
         if self.target_ip:
             self.raw_data = os.popen(f"traceroute -w 1 -q 1 {self.target_ip}").readlines()
         else:
@@ -30,7 +32,9 @@ class Traceroute:
 
 
     def oranize_data(self):
-        """Clearing up the data after initial traceroute"""
+        """
+        Clearing up the data after initial traceroute
+        """
         if len(self.raw_data) > 1:
             self.clean_data = [item.split(" ") for item in self.raw_data ]
             
@@ -53,19 +57,48 @@ class Traceroute:
 
 
     def define_network_class(self):
-        """Based on the traceroute details, detect the local adress and append to the clean data"""
+        """
+        Based on the traceroute details, 
+        Detect the public or private adress and append to the clean data
+        """
         if len(self.clean_data) > 1:
+            class_ip_vals = self.network_classes.values()
+            class_ip_vals = [item.split(".") for item in class_ip_vals]
 
             for item in self.clean_data:
-                if len(item) > 2:
-                    ip_addr = int(item[2].split(".")[0])
 
-                    if ip_addr >=1:
-                        for ip_range in self.network_classes.values():
-                            if int(ip_range) == ip_addr:
-                                item.append("local-adress")
+                if len(item) > 2:
+
+                    # getting the octets 
+                    ip_addr = (item[2].split("."))
+
+                    if len(ip_addr) >=1:
+                        
+                        #Checking class A
+                        if ip_addr[0] == class_ip_vals[0][0]:
+                            item.append("private-adress")
+                        
+                        # Checking class B
+                        elif ip_addr[0] == class_ip_vals[1][0]:
+                            if int(ip_addr[1]) >= 16 and int(ip_addr[1]) <= 31:
+                                item.append("private-adress")
+                            else:
+                                item.append("public-adress")
+                        
+                        # Checking class C
+                        elif ip_addr[0] == class_ip_vals[2][0]:
+                            if int(ip_addr[1]) == 168:
+                                item.append("private-adress")
+                            else:
+                                item.append("public-adress")
+                        
+                        # For the rest of Ips
+                        else:
+                            item.append("public-adress")
+
         return self.clean_data
     
+
     def get_ip_addrs(self):
         """Get the scanned ips for futher evaluation"""
         if len(self.clean_data) > 1:
@@ -76,6 +109,19 @@ class Traceroute:
         return self.ips
 
 
+    def count_stars(self):
+        """
+        If we got * in the traceroute:
+        we set the values as none for the rest of the columns
+        """
+        empty_vals = ["none", "none", "none", "none"]
+        for array in self.clean_data:
+            for item in array:
+                if "*\n" in item:
+                    array.extend(empty_vals)
+                    break
+
+
 class Async_calls(Traceroute):
 
     def perform_traceroute(self):
@@ -83,6 +129,7 @@ class Async_calls(Traceroute):
         self.oranize_data()
         self.define_network_class()
         self.get_ip_addrs()
+        self.count_stars()
 
 
     async def get_location(self, ip, session, endpoint):
@@ -121,6 +168,7 @@ class Async_calls(Traceroute):
                     item.pop('ip')
                     row.append(item)
                     break
+        return self.clean_data
         
 
 
