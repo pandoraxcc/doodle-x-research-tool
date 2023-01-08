@@ -29,8 +29,6 @@ def traceroute(request):
         # from list of dictionaries to json
         result = json.dumps(result)
         return HttpResponse(result)
-
-
     return render(request, "traceroute.html")
 
     

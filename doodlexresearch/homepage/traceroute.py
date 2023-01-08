@@ -95,6 +95,11 @@ class Traceroute:
                         # For the rest of Ips
                         else:
                             item.append("public-adress")
+            
+            for item in self.clean_data:
+                if "private-adress" in item:
+                    item.append("No location data")
+
 
         return self.clean_data
     
@@ -103,7 +108,7 @@ class Traceroute:
         """Get the scanned ips for futher evaluation"""
         if len(self.clean_data) > 1:
             # get the list of the targeted IPs
-            self.ips = [record[2] for record in self.clean_data if len(record) > 2 and 'local-adress' not in record]
+            self.ips = [record[2] for record in self.clean_data if len(record) > 2 and 'private-adress' not in record]
         else:
             self.ips = ["none"]
         return self.ips
