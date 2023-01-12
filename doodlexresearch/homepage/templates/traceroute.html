@@ -7,9 +7,9 @@
 
 {% block body_data %}
 {% load static %}
-<div class="container" style="margin-top:2rem;">
+<div class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
     <div class="row">
-        <div class="col">
+        <div class="main col">
             <!-- Section iwth title, description and image -->
             <div class="mt-4 mb-4">
                 <h1 class="text-center">Traceroute your local network</h1>
@@ -32,16 +32,36 @@
                         </div>
 
                         <div class="col">
-                            <button class="btn btn-success my-auto traceroute-load" type="button" >Traceroute</button>
+                            <button class="btn btn-success my-auto traceroute-load" type="button">Traceroute</button>
                         </div>
                     </div>
                 </div>
             </form>
             
-            <!-- Here we load the status and the result of traceroute-->
-            <div class="row" style="margin-bottom: 5rem;">
+            <!-- Here we load the status and the result of traceroute -->
+            <div class="row">
                 <div class="traceroute-results mx-auto"></div>
+              
             </div>
+
+            <div class="row graphs">
+
+                <div class="col">
+                    <!-- Here we load the charts with the ping results from traceroute -->
+                    <div class="row ping-graph">
+                    <canvas id="pings"></canvas>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <!-- Here we load the charts with the countries summary from traceroute -->
+                    <div class="row country-graph">
+                        <canvas id="countries"></canvas>
+                    </div>
+                </div>
+
+            </div>
+            
         </div>
     </div>
 </div>
@@ -49,5 +69,8 @@
 {% endblock body_data %}
 
 {% block custom_js %}
-    <script src="{% static './js/js-processors/traceroute-processor.js' %}"></script>
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script type="module" src="{% static './js-modules/traceroute-processor.js' %}"></script>
+    <script type="module" src="{% static './js-modules/trace-chart.js' %}"></script>
 {% endblock custom_js%}
