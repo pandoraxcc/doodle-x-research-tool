@@ -40,13 +40,19 @@ class Traceroute:
             
             # clearing the empty records per hop
             for item in self.clean_data:
+                print('\n')
+                print(item)
+                print('\n')
                 for index, data in enumerate(item):
+                    # removing the empty elements
                     if data == '':
                         item.pop(index)
-                # removing ms string from the record
+                    # removing ms string from the record
+                    if 'ms' in data:
+                        item.pop(index)
+                        
                 if len(item) > 2:
-                    item.pop(-1)
-                    # removing parentheses from the ip adress, 2nd element of the list
+                    # removing parentheses from the ip adress
                     item[2] = item[2].replace('(','').replace(')','')
 
         else:

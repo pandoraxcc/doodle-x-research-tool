@@ -12,6 +12,14 @@ const ctx = canvas.getContext('2d');
 var canvas1 = document.getElementById("countries");
 const ctx1 = canvas1.getContext('2d');
 
+// Canvas and ctx for drawing the organizations chart
+var canvas2 = document.getElementById("organizations");
+const ctx2 = canvas2.getContext('2d');
+
+// Canvas and ctx for drawing the organizations chart
+var canvas3 = document.getElementById("adresses");
+const ctx3 = canvas3.getContext('2d');
+
 // Table blueprint to upload the data 
 var table_headers = `
         <div class="container mx-auto" style="padding: 1rem 0rem;">
@@ -157,5 +165,7 @@ $(document).ready(function () {
 $(document).ajaxComplete(function () {
     graphs.display_ping_chart(trace_array, ctx);
     graphs.display_country_chart(trace_array, ctx1);
+    graphs.display_organization_chart(trace_array, ctx2);
+    graphs.display_adress_chart(trace_array, ctx3);
     console.log("Finished the task");
 });
