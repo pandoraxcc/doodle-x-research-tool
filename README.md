@@ -2,16 +2,9 @@
 Web app that visualizes and performs network scans. </br>I work on this project as a part of my constant learning about security and web development.</br>
 </br>
 ## Implementation of traceroute
-Performs traceroute and unloads data with some graphs (work in 
-progress)</br>
+Performs traceroute and unloads data with some graphs</br>
 The current traceroute functionality is implemented, but requires:</br>
-1.Tests</br>
-2.Add the input validation</br></br>
+1.Add the input validation</br></br>
+## Implementation of port scan (work in progress)
+Performs port scan on the target IP (tested on local host) and provides data in the table.  Implemented with sockets, because works faster with no warnings in Django debug console.</br>
 
-I tested the traceroute with different domains, such as google.com, 
-yahoo.com, pandorax.cc ( my website ) and others. The table uploads 
-the data and charts are built.</br>
-Some websites may require increased TTL in order to retrive the data 
-(doodlex's tool default value is 1) as they return stars/empty responses 
-</br></br>
- 
