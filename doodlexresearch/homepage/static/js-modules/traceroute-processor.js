@@ -1,5 +1,5 @@
 
-import * as graphs from "./trace-chart.js"
+import * as graphs from "./trace-chart-traceroute.js"
 
 // Used for storing the arrays of traceroute data
 var trace_array;
@@ -68,7 +68,7 @@ function setup_on_request(target_ip) {
     hide_charts();
     // adding the status bar and the loader
     $(".traceroute-results").append(
-        `<p class="text-center loading-info">Please wait, while we performing traceroute to ${target_ip}</p>
+        `<p style="margin-top: 3rem;" class="text-center loading-info">Please wait, while we performing traceroute to ${target_ip}</p>
         <img style="display:block;" class="mx-auto loading-spinner" src="/static/img/traceroute/loading-animation.webp" alt="" width="8%">`);
     // Prevent another submission while executing
     $(".traceroute-load").prop("disabled", true);
@@ -136,7 +136,7 @@ $(document).ready(function () {
                     data: { ip: target_ip },
 
                     success: function (data) {
-
+                        console.log(data)
                         // Converting from JSON string to the array
                         trace_array = JSON.parse(data);
                         console.log("Got the response from the server:");
