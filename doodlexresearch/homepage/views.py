@@ -40,12 +40,30 @@ def scan_ports(request):
     if request.method == 'POST':
 
         data=list(request.POST.items())
-        print(data)
+
         adress = data[0][1]
         fromport = data[1][1]
         endport = data[2][1]
 
         result = portscan_wrapper(adress, fromport, endport)
+        
+        # >>>  Testing different scenarios  <<< #:
+
+        # Case1: Non sensitive and sensetive ports
+        # result = [["55530", "localhsot", "port is open"], ["55531", "localhsot", "port is open"], ["55532", "localhsot", "port is open"], ["55533", "localhsot", "port is open"], ["55534", "localhsot", "port is open"], ["22", "localhsot", "port is open"]]
+        
+        # Case2: Sensitive ports
+        # result = [["22", "localhsot", "port is open"], ["23", "localhsot", "port is open"], ["51", "localhsot", "port is open"], ["88", "localhsot", "port is open"], ["137", "localhsot", "port is open"]]
+        
+        # Case3: Sensitive port
+        # result = [["69", "localhsot", "port is open"]]
+
+        # Case4: Non sensitive port 
+        # result = result = [["1337", "localhsot", "port is open"]]
+
+        # >>>  End of tests  <<< #:
+
+
         result =json.dumps(result)
 
         return HttpResponse(result)

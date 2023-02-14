@@ -1,18 +1,23 @@
+import * as check_vulnerability from "./protscan-vuln-check.js"
+
+
 // Table blueprint to upload the data 
 var table_ports = `
-        <div class="container mx-auto" style="padding: 1rem 0rem;">
-            <h3 class="text-center p-3"> Scan Results</h3>
-            <table class="table text-center">
-                <thead>
-                    <tr>
-                        <th>Port number</th>
-                        <th>Host name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody class="data-rows">
-                </tbody>
-            </table>
+        <div>
+            <div class="container mx-auto" style="padding: 1rem 0rem;">
+                <h3 class="text-center p-3"> Scan Results</h3>
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th>Port number</th>
+                            <th>Host name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="data-rows">
+                    </tbody>
+                </table>
+            </div>
         </div>
 `
 function setup_after_request() {
@@ -112,9 +117,11 @@ $(document).ready(function() {
                         // Converting from JSON string to the array
 
                         var ports_info = JSON.parse(data);
-                        console.log(ports_info)
-                        setup_after_request()
-                        display_data(ports_info)
+                        setup_after_request();
+
+                        display_data(ports_info);
+                        check_vulnerability.check_if_ports_vulnerable(ports_info);
+
 
                     },
 
