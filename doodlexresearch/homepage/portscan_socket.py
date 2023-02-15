@@ -48,8 +48,7 @@ class PortScannerSocket:
                
 
         except Exception as e:
-            self.open_ports.append(['Error: No open ports', f'{self.host}', f'An error occured during the scan, firewall blocked the connection or host {self.host} is down.'])
-
+            self.open_ports.append(['Error: Host is down', f'{self.host}', f'An error occured during the scan, firewall blocked the connection or host {self.host} is down.'])
 
         return self.open_ports
 

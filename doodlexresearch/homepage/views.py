@@ -59,12 +59,19 @@ def scan_ports(request):
         # result = [["69", "localhsot", "port is open"]]
 
         # Case4: Non sensitive port 
-        # result = result = [["1337", "localhsot", "port is open"]]
+        # result = [["1337", "localhsot", "port is open"]]
 
+        # Case5: No open ports
+        # result = [["No open ports", "localhost", "There are no open ports from the given range 1: 65535 "]]
+
+        # Case6: Error
+        # result = [["Error: Host is down", "256.256.256.256", "An error occured during the scan, firewall blocked the connection or host 256.256.256.256 is down"]]
+        
         # >>>  End of tests  <<< #:
 
 
         result =json.dumps(result)
+        print(result)
 
         return HttpResponse(result)
 

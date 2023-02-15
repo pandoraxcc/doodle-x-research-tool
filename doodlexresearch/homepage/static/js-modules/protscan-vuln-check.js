@@ -1,6 +1,6 @@
 // Mapping the most vulnerable ports for the system 
-// I created the list ased on different cyber security related articles
-// The list could be expanded based on different threats/needs for your projects
+// I created the list based on the different cyber security related articles
+// The list could be expanded for different threats/needs of your projects
 
 const vulnerable_ports = {
 
@@ -283,6 +283,20 @@ export function set_status_mixed_many_ports(ports) {
 
 }
 
+export function set_status_no_ports() {
+    let message = `
+    <div>
+        <div class="vulnerability-result">
+            <h3 class="vulnerability-title mx-auto p-3 text-center">Vulnerability Report</h3>
+            <div class="vulnerability-message">
+                <p class="single-port-paragraph text-center">We were not able to locate open ports. Try providing different host name or make sure the firewall doesn't block the requests.</p>
+            </div>
+        </div>
+    </div>
+    `;
+    $('.portscan-results').append(message);
+}
+
 export function check_if_ports_vulnerable(port_list){
 
     // Ports that are in the list of vulnerable ones
@@ -321,7 +335,9 @@ export function check_if_ports_vulnerable(port_list){
         // If Message
         else {
 
+
             /// TODO: Implement the function with the template (no buttons)
+            set_status_no_ports();
 
         }
     }
