@@ -10,7 +10,8 @@ Performs traceroute and unloads detailed information with stats graphs using Cha
 2.Builds different graphs and charts based on the traceroute results: ping, organization, type of IP adress and countries.</br></br>
 
 ## Implementation of port scan (completed)
-Performs port scan on the target IP (tested on the local host) and provides the scan results.  Implemented with sockets. Nmap solution is also implemented, but works only from the console, you can run it within your enviroment as ``` python3 portscan_nmap.py ``` (Nmap scan conflicts with the Django instance).</br></br>
+Updates: I decided to use sockets for the local scans, and nmap solution for non-local hosts. Nmap package seems to detect at better accuracy rather than custom written async socket scanner. However, perfomace based, I found it quite slow, so that requires improvement.</br>
+Performs port scan on the target IP (tested on the local host) and provides the scan results. Implemented with sockets and nmap.
 
 ### Features:
 Generates links to speedinfo.com for any discovered ports for more information.
