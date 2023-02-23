@@ -5,12 +5,12 @@ class PortScannerTool:
     def __init__(self, **kwargs):
 
         # scanning parameters
-        self.host = kwargs["adress"]
+        self.host = kwargs["host"]
         self.from_port = kwargs["fromport"]
         self.end_port = kwargs["endport"]
         self.port_str = ""
+        self.open_ports_nmap = []
         self.open_ports = []
-        self.result = []
         self.nm = nmap.PortScanner()
 
 
@@ -37,22 +37,23 @@ class PortScannerTool:
         for host in self.nm.all_hosts():
 
             for protocol in self.nm[host].all_protocols():
-                self.open_ports = self.nm[host][protocol].keys()
+                # tcp / udp
 
-                if len(self.open_ports) > 1:
+                self.open_ports_nmap = self.nm[host][protocol].keys()
 
-                    for port in self.open_ports:
-                        record = {'port': port, 'state': self.nm[host][protocol][port]['state']}
-                        self.result.append(record)
+                if len(self.open_ports_nmap) > 1:
+
+                    for port in self.open_ports_nmap:
+                        record = [f'{port}', f'{host}', f'port is open']
+                        self.open_ports.append(record)
 
                 else:
-                    record = {'status': 'no open ports'}
-                    self.result.append(record)
+                    self.open_ports.append(['No open ports', f'{host}', f'There are no open ports from the given range {self.from_port}: {self.end_port}'])
 
-        return self.result    
+        return self.open_ports    
 
 if __name__ == '__main__':
-    a = PortScannerTool(adress='0.0.0.0', fromport='1', endport='65535')
+    a = PortScannerTool(adress='localhost', fromport='1', endport='65535')
     a.prepare_port_format()
     a.scan_ports()
     res = a.prepare_results()

@@ -133,7 +133,7 @@ class Traceroute:
                     break
 
 
-class Async_calls(Traceroute):
+class Traceroute_async(Traceroute):
 
     def perform_traceroute(self):
         self.process_traceroute()
@@ -185,7 +185,7 @@ class Async_calls(Traceroute):
 
 if __name__ == '__main__':
     
-    a = Async_calls("google.com")
+    a = Traceroute_async("google.com")
     a.perform_traceroute()
     asyncio.run(a.main_calls())
     a.map_data()

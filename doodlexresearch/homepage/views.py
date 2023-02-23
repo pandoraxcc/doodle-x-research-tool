@@ -1,20 +1,37 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .traceroute import Async_calls
+from .traceroute import Traceroute_async
 from .portscan_socket import PortScannerSocket
 from django.views.decorators.csrf import csrf_exempt
 import asyncio
+import time
 import requests
 import json
 
 def traceroute_wrapper(endpoint):
-    tr = Async_calls(endpoint)
+    tr = Traceroute_async(endpoint)
     tr.perform_traceroute()
     asyncio.run(tr.main_calls())
+    
     return tr.map_data()
 
-def portscan_wrapper(endpoint,fromport,endport):
-    sc = PortScannerSocket(adress = endpoint, fromport = fromport, endport = endport)
+def portscan_wrapper_sockets(endpoint, fromport, endport):
+    ps = PortScannerSocket(host=endpoint, fromport=fromport, endport=endport)
+    ps.prepare_ports_format()
+    status = ps.check_host_is_up()
+
+    if status:
+        ps.scan_ports()
+        result = ps.check_results()
+    
+    else:
+        result = ps.check_results()
+        
+    return result
+
+
+def portscan_wrapper_nmap(endpoint,fromport,endport):
+    sc = PortScannerSocket(host=endpoint, fromport=fromport, endport=endport)
     sc.prepare_ports_format()
     result = sc.scan_ports()
     return result
@@ -41,12 +58,23 @@ def scan_ports(request):
 
         data=list(request.POST.items())
 
-        adress = data[0][1]
+        local_hosts_types = ['0.0.0.0', '127.0.0.1', 'localhost']
+
+        # reading data from the Post request
+        host = data[0][1]
         fromport = data[1][1]
         endport = data[2][1]
 
-        result = portscan_wrapper(adress, fromport, endport)
+        start_time = time.time()
+
+        if host in local_hosts_types:
+            print(f'running socket scanner')
+            result = portscan_wrapper_sockets(host, fromport, endport)
         
+        else:
+            print(f'running nmap scanner')
+            result = portscan_wrapper_nmap(host, fromport, endport)
+
         # >>>  Testing different scenarios  <<< #:
 
         # Case1: Non sensitive and sensetive ports
@@ -69,6 +97,7 @@ def scan_ports(request):
         
         # >>>  End of tests  <<< #:
 
+        print("--- %s seconds ---" % (time.time() - start_time))
 
         result =json.dumps(result)
         print(result)

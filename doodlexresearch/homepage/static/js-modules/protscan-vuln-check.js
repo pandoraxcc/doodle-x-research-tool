@@ -250,7 +250,9 @@ export function set_status_unsafe_many_ports(ports) {
                 <p class="single-port-paragraph text-center">We identified that scanned ports are in the list of the most targeted ports. It's highly recommended that you close them or identify the user/process running. You can learn more on these ports and vulnerabilities on speedguide.com</p>
 
                 <div class="row">
+                    <div class="col mx-auto">
                     ${result}
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,7 +275,9 @@ export function set_status_mixed_many_ports(ports) {
                 <p class="single-port-paragraph text-center">The remaining ports are not in the list of the most targeted ones, but they still might be a vulnerability.</br>
                 You can read more about these ports on speedguru.com</br></p>
                 <div class="row">
+                    <div class="row mx-auto">
                     ${result}
+                    </div>
                 </div>
             </div>
         </div>
