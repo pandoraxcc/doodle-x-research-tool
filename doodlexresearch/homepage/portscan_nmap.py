@@ -28,7 +28,7 @@ class PortScannerTool:
         """
         Scan for open ports
         """
-        self.nm.scan(hosts=self.host, ports=self.port_str)
+        self.nm.scan(hosts=self.host, arguments=f'-p {self.port_str}', timeout=10)
 
     def prepare_results(self):
         """
@@ -53,7 +53,7 @@ class PortScannerTool:
         return self.open_ports    
 
 if __name__ == '__main__':
-    a = PortScannerTool(adress='localhost', fromport='1', endport='65535')
+    a = PortScannerTool(host='172.20.10.1', fromport='1', endport='65535')
     a.prepare_port_format()
     a.scan_ports()
     res = a.prepare_results()

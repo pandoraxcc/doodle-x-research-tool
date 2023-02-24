@@ -73,7 +73,7 @@ class PortScannerSocket:
             target = socket.gethostbyname(self.host) 
 
             # will scan ports between with the specified range
-            for port in range(self.port_range[0], self.port_range[1]):
+            for port in range(self.port_range[0], self.port_range[1] + 1):
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 
                 result = s.connect_ex((target,port))
