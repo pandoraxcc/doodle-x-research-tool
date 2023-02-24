@@ -33,7 +33,14 @@ def portscan_wrapper_sockets(endpoint, fromport, endport):
 def portscan_wrapper_nmap(endpoint,fromport,endport):
     sc = PortScannerSocket(host=endpoint, fromport=fromport, endport=endport)
     sc.prepare_ports_format()
-    result = sc.scan_ports()
+    status = sc.check_host_is_up()
+
+    if status:
+        result = sc.scan_ports()
+    
+    else:
+        result = sc.check_results()
+        
     return result
 
 def index(request):

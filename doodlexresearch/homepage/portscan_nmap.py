@@ -1,6 +1,8 @@
 import nmap
+import time
+from .portscan_socket import PortScannerSocket
 
-class PortScannerTool:
+class PortScannerTool(PortScannerSocket):
     
     def __init__(self, **kwargs):
 
@@ -37,7 +39,6 @@ class PortScannerTool:
         for host in self.nm.all_hosts():
 
             for protocol in self.nm[host].all_protocols():
-                # tcp / udp
 
                 self.open_ports_nmap = self.nm[host][protocol].keys()
 
@@ -53,9 +54,20 @@ class PortScannerTool:
         return self.open_ports    
 
 if __name__ == '__main__':
+    start_time = time.time()
+
     a = PortScannerTool(host='172.20.10.1', fromport='1', endport='65535')
     a.prepare_port_format()
-    a.scan_ports()
-    res = a.prepare_results()
-    print(res)
-        
+
+    status = a.check_host_is_up()
+
+    if status:
+        a.scan_ports()
+        res = a.prepare_results()
+
+    else:
+        a.check_results()
+
+    print(a.open_ports)
+    print("--- %s seconds ---" % (time.time() - start_time))
+       
