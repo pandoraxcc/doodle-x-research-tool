@@ -14,7 +14,7 @@ Updates: I decided to use sockets for the local scans, and nmap solution for non
 Performs port scan on the target IP (tested on the local host) and provides the scan results. Implemented with sockets and nmap.
 
 ### Features:
-Generates links to speedinfo.com for any discovered ports for more information.
+Generates links to speedguide.com for any discovered ports for more information.
 Vulnerability report based on different port scan scenarios. The scan returns stats for:</br>
 1.Single vulnerable / non vulnerable port(s);</br>
 2.Many vulnerable / non vulnerable ports all together;</br>
