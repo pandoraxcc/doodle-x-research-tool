@@ -32,7 +32,7 @@ def portscan_wrapper_sockets(endpoint, fromport, endport):
     
     else:
         print(f'{BeautifyTerminal.WARNING}*** the host is down ***{BeautifyTerminal.ENC}')
-        result = ps.open_ports
+        result = ps.check_results()
         
     return result
 
@@ -52,8 +52,7 @@ def portscan_wrapper_nmap(endpoint,fromport,endport):
     
     else:
         print(f'{BeautifyTerminal.WARNING}*** the host is down ***{BeautifyTerminal.ENDC}')
-        sc.check_results()
-        result = sc.open_ports
+        result = sc.check_results()
 
     return result
 
@@ -89,11 +88,9 @@ def scan_ports(request):
         start_time = time.time()
 
         if host in local_hosts_types:
-            print("0")
             result = portscan_wrapper_sockets(host, fromport, endport)
         
         else:
-            print("1")
             result = portscan_wrapper_nmap(host, fromport, endport)
 
         # >>>  Testing different scenarios  <<< #:

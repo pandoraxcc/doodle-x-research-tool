@@ -143,9 +143,13 @@ if __name__ == '__main__':
 
     if status:
         a.scan_ports()
-        a.check_results()
+        res = a.check_results()
+        print(res)
 
-    print(a.open_ports)
+    else:
+        res = a.check_results()
+        print(res)
+
     print("--- %s seconds ---" % (time.time() - start_time))
 
 

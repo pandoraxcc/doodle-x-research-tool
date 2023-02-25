@@ -43,11 +43,8 @@ class PortScannerTool(PortScannerSocket):
             for protocol in self.nm[host].all_protocols():
 
                 self.scan_ports_keys = self.nm[host][protocol].keys()
-                print(len(self.scan_ports_keys))
-                print("######")
                 self.scan_ports_values = self.nm[host][protocol].values()
-                print(len(self.scan_ports_values))
-                print("######")
+
 
                 for port, state in zip(self.scan_ports_keys, self.scan_ports_values):
                     if state['state'] == 'open':
@@ -66,9 +63,12 @@ if __name__ == '__main__':
     if status:
         a.scan_ports()
         a.prepare_results()
-        a.check_results()
+        res = a.check_results()
+        print(res)
 
     else:
-        a.check_results()
+        res = a.check_results()
+        print(res)
+
     print("--- %s seconds ---" % (time.time() - start_time))
        
