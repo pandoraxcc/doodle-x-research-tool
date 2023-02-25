@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .traceroute import Traceroute_async
 from .portscan_socket import PortScannerSocket
+from .portscan_nmap import PortScannerTool
+from .terminal_colors import BeautifyTerminal
 from django.views.decorators.csrf import csrf_exempt
 import asyncio
+import os
 import time
 import requests
 import json
@@ -18,29 +21,40 @@ def traceroute_wrapper(endpoint):
 def portscan_wrapper_sockets(endpoint, fromport, endport):
     ps = PortScannerSocket(host=endpoint, fromport=fromport, endport=endport)
     ps.prepare_ports_format()
-    status = ps.check_host_is_up()
+    status = ps.check_host_is_up_ping()
 
     if status:
+        print(f'{BeautifyTerminal.OKGREEN}*** the host is up ***{BeautifyTerminal.ENDC}')
+        print(f'{BeautifyTerminal.OKGREEN}*** running socket scanner ***{BeautifyTerminal.ENDC}')
+
         ps.scan_ports()
         result = ps.check_results()
     
     else:
-        result = ps.check_results()
+        print(f'{BeautifyTerminal.WARNING}*** the host is down ***{BeautifyTerminal.ENC}')
+        result = ps.open_ports
         
     return result
 
 
 def portscan_wrapper_nmap(endpoint,fromport,endport):
-    sc = PortScannerSocket(host=endpoint, fromport=fromport, endport=endport)
-    sc.prepare_ports_format()
-    status = sc.check_host_is_up()
+    sc = PortScannerTool(host=endpoint, fromport=fromport, endport=endport)
+    sc.prepare_port_format()
+    status = sc.check_host_is_up_ping()
 
     if status:
-        result = sc.scan_ports()
+        print(f'{BeautifyTerminal.OKGREEN}*** the host is up ***{BeautifyTerminal.ENDC}')
+        print(f'{BeautifyTerminal.OKGREEN}*** running nmap scanner ***{BeautifyTerminal.ENDC}')
+
+        sc.scan_ports()
+        sc.prepare_results()
+        result = sc.check_results()
     
     else:
-        result = sc.check_results()
-        
+        print(f'{BeautifyTerminal.WARNING}*** the host is down ***{BeautifyTerminal.ENDC}')
+        sc.check_results()
+        result = sc.open_ports
+
     return result
 
 def index(request):
@@ -75,11 +89,11 @@ def scan_ports(request):
         start_time = time.time()
 
         if host in local_hosts_types:
-            print(f'running socket scanner')
+            print("0")
             result = portscan_wrapper_sockets(host, fromport, endport)
         
         else:
-            print(f'running nmap scanner')
+            print("1")
             result = portscan_wrapper_nmap(host, fromport, endport)
 
         # >>>  Testing different scenarios  <<< #:
