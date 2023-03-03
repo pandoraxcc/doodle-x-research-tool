@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .traceroute import Traceroute_async
+from .discovery import DiscoveryTool
 from .portscan_socket import PortScannerSocket
 from .portscan_nmap import PortScannerTool
 from .terminal_colors import BeautifyTerminal
@@ -36,6 +37,13 @@ def portscan_wrapper_sockets(endpoint, fromport, endport):
         
     return result
 
+def discovery_wrapper(endpoint):
+    ds = DiscoveryTool(netmask=endpoint)
+    ds.discover_host()
+    ds.add_detailed_information()
+    result = ds.check_results()
+
+    return result
 
 def portscan_wrapper_nmap(endpoint,fromport,endport):
     sc = PortScannerTool(host=endpoint, fromport=fromport, endport=endport)
@@ -71,6 +79,20 @@ def traceroute(request):
         return HttpResponse(result)
 
     return render(request, "traceroute.html")
+
+@csrf_exempt
+def discover_network(request):
+    if request.method == 'POST':
+
+        data=list(request.POST.items())
+        host = data[0][1]
+
+        result = discovery_wrapper(host)
+        result =json.dumps(result)
+
+        return HttpResponse(result)
+
+    return render(request, "network-discovery.html")
 
 @csrf_exempt
 def scan_ports(request):

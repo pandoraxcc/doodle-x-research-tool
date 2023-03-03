@@ -67,7 +67,7 @@ function setup_on_request() {
     // adding the status bar and the loader
     $(".portscan-results").empty()
     $(".portscan-results").append(
-        `<p style="margin-top: 3rem;" class="text-center loading-info">Please wait, while we performing port scan</p>
+        `<p style="margin-top: 3rem;" class="text-center loading-info">Please wait, while we are performing port scan</p>
         <img style="display:block;" class="mx-auto loading-spinner" src="/static/img/traceroute/loading-animation.webp" alt="" width="8%">`);
     // Prevent another submission while executing
     $(".scanports").prop("disabled", true);
@@ -93,6 +93,7 @@ function display_data(array) {
 $(document).ready(function() {
     $(".scanports").click(
         function(){
+            
             var addr = $("#addr").val()
             var from_port = $("#from-port").val();
             var end_port = $("#end-port").val();
