@@ -20,3 +20,9 @@ Vulnerability report based on different port scan scenarios. The scan returns st
 2.Many vulnerable / non vulnerable ports all together;</br>
 3.Either vulnerable or non vulnerable ports.</br>
 4.Scan returns no ports or scan errors</br></br>
+
+## Implementation of network discovery (completed)
+Performs network discovery on the specified domain or network (tested on the local network only with dummy data).
+
+### Features:
+Performs the scan and provides connected hosts.
