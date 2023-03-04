@@ -1,6 +1,15 @@
 # Doodle-x-research-tool
 Web app that visualizes and performs network scans. </br>I work on this project as a part of my constant learning about security and web development.</br></br>
 
+## How to run the tool
+1.You need to have python installed, verify installation: `python3 --version`</br>
+2.Create a project folder: `cd ~/Desktop && mkdir cyber-tool`</br>
+3.Clone the repository: `git clone https://github.com/pandoraxcc/doodle-x-research-tool.git`</br>
+4.Create virtual enviroment: `virtualenv d-cyber` and activate it `source d-cyber/bin/activate`</br>
+5.Install the requirements: `pip3 install requirements.txt`</br>
+6.Run the server: `python3 manage.py runserver`</br>
+7.Open the browser and navigate to 127.0.0.1:8000</br></br>
+
 ## Implementation of traceroute (completed)
 
 Performs traceroute and unloads detailed information with stats graphs using Charts.js</br></br>
