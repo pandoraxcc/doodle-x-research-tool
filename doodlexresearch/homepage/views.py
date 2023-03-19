@@ -5,12 +5,20 @@ from .discovery import DiscoveryTool
 from .portscan_socket import PortScannerSocket
 from .portscan_nmap import PortScannerTool
 from .terminal_colors import BeautifyTerminal
+from homepage.models import Traceroute, Discovery, Ports
 from django.views.decorators.csrf import csrf_exempt
 import asyncio
 import os
 import time
 import requests
 import json
+
+
+# Objects from the DB Models
+db_trace = Traceroute()
+db_discovery = Discovery()
+db_ports = Ports()
+
 
 def traceroute_wrapper(endpoint):
     tr = Traceroute_async(endpoint)
@@ -69,6 +77,7 @@ def index(request):
 
 @csrf_exempt
 def traceroute(request):
+
     if request.method == 'POST':
 
         data=list(request.POST.items())
@@ -76,12 +85,17 @@ def traceroute(request):
         result = traceroute_wrapper(ip_addr)
         result = json.dumps(result)
 
+        # Save results to the database
+        db_trace.set_data(ip_addr, result)
+        db_trace.save()
+
         return HttpResponse(result)
 
     return render(request, "traceroute.html")
 
 @csrf_exempt
 def discover_network(request):
+
     if request.method == 'POST':
 
         data=list(request.POST.items())
@@ -90,12 +104,17 @@ def discover_network(request):
         result = discovery_wrapper(host)
         result =json.dumps(result)
 
+        # Save results to the database
+        db_discovery.set_data(host, result)
+        db_discovery.save()
+
         return HttpResponse(result)
 
     return render(request, "network-discovery.html")
 
 @csrf_exempt
 def scan_ports(request):
+
     if request.method == 'POST':
 
         data=list(request.POST.items())
@@ -140,7 +159,10 @@ def scan_ports(request):
         print("--- %s seconds ---" % (time.time() - start_time))
 
         result =json.dumps(result)
-        print(result)
+
+        # Save results to the database
+        db_ports.set_data(host, result)
+        db_ports.save()
 
         return HttpResponse(result)
 

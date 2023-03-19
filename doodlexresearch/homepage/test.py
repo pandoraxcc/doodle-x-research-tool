@@ -1,10 +1,20 @@
 from django.test import Client, TestCase
 from django.http import HttpResponse
+from homepage.models import Traceroute, Discovery, Ports
+import json
 import asyncio
 
+# Most of the tests I completed by manually testing each implemented tool.
 # You can run this script in the terminal using following command: $python3 manage.py test
 
+# Objects from the DB Models
+db_trace = Traceroute()
+db_discovery = Discovery()
+db_ports = Ports()
+
 class ViewTestCase(TestCase):
+
+    # Testing views with POST and GET requests
 
     def test_get_requests_traceroute(self):
         c = Client()
@@ -54,3 +64,35 @@ class ViewTestCase(TestCase):
         c = Client()
         response = c.post('/discovery/', {'host': '127.0.0.1'})
         self.assertEqual(response.status_code, 200)
+
+
+class TestDbModels(TestCase):
+
+    def test_write_read_traceroute(self):
+        # Create a record
+        db_trace.set_data('xyz.com', json.dumps(['dummy data1', 'dummy data2', 'dummy data3' ]))
+        db_trace.save()
+
+        #Read from the database
+        data = db_trace.get_data()
+        self.assertEqual('xyz.com', data[0][0])
+    
+    def test_write_read_portscanner(self):
+        # Create a record
+        db_ports.set_data('verycoolhost3', json.dumps(['Very coooool host has no open ports']))
+        db_ports.save()
+        
+        #Read from the database
+        data = db_ports.get_data()
+        self.assertEqual('verycoolhost3', data[0][0])
+
+    def test_write_read_hostdiscovery(self):
+        # Create a record
+        db_discovery.set_data('anothercoolhost', json.dumps(['data', 'data1', 'data2']))
+        db_discovery.save()
+
+        #Read from the database
+        data = db_discovery.get_data()
+        self.assertEqual('anothercoolhost', data[0][0])
+
+

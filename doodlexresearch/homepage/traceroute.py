@@ -40,9 +40,6 @@ class Traceroute:
             
             # clearing the empty records per hop
             for item in self.clean_data:
-                print('\n')
-                print(item)
-                print('\n')
                 for index, data in enumerate(item):
                     # removing the empty elements
                     if data == '':
