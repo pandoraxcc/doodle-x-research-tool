@@ -5,8 +5,12 @@ Web app that visualizes and performs network scans. </br>I work on this project 
 1.You need to have python installed, verify installation: `python3 --version`</br>
 2.Create a project folder: `cd ~/Desktop && mkdir cyber-tool`</br>
 3.Clone the repository: `git clone https://github.com/pandoraxcc/doodle-x-research-tool.git`</br>
-4.Create virtual enviroment: `virtualenv d-cyber` and activate it `source d-cyber/bin/activate`</br>
-5.Install the requirements: `pip3 install requirements.txt`</br>
+4.Create virtual enviroment: `python3 -m venv d-cyber` and activate it `source d-cyber/bin/activate`</br>
+5.Install the requirements: `pip3 install -r requirements.txt`</br></br>
+
+6.Download nmap library for python (developer's resource): curl -O https://xael.org/pages/python-nmap-0.7.1.tar.gz && tar -xzf python-nmap-0.7.1.tar.gz</br>
+7.Verify the md5sum and add the library to the enviroment</br>
+8.Update the database with a migration: python3 manage.py migrate 
 6.Run the server: `python3 manage.py runserver`</br>
 7.Open the browser and navigate to 127.0.0.1:8000</br></br>
 

@@ -56,6 +56,9 @@ function setup_after_request() {
     $(".traceroute-results").empty();
     // the data is ready and another request could be sumbitted
     $(".traceroute-load").prop("disabled", false);
+    $(".input-traceroute").prop("disabled", false);
+
+    
 
 }
 
@@ -72,6 +75,8 @@ function setup_on_request(target_ip) {
         <img style="display:block;" class="mx-auto loading-spinner" src="/static/img/traceroute/loading-animation.webp" alt="" width="8%">`);
     // Prevent another submission while executing
     $(".traceroute-load").prop("disabled", true);
+    $(".input-traceroute").prop("disabled", true);
+
 }
 
 function display_data(array) {
@@ -112,6 +117,45 @@ function show_charts() {
     $(".graphs").show();
 }
 
+function process_submission() {
+    var target_ip = $("#ip_addr").val();
+    var validation = validate_input(target_ip);
+
+    if (validation) {
+
+        setup_on_request(target_ip);
+
+        // POST request
+
+        $.ajax({
+
+            type: "post",
+            data: { ip: target_ip },
+
+            success: function (data) {
+                console.log(data)
+                // Converting from JSON string to the array
+                trace_array = JSON.parse(data);
+                console.log("Got the response from the server:");
+                console.log(trace_array);
+
+                // Show the charts
+                show_charts();
+                // Modify the dom
+                setup_after_request();
+                // Append the table with the data
+                display_data(trace_array);
+
+            },
+
+            error: function () {
+                console.log("No response from the server");
+            }
+        })
+    }
+
+}
+
 /* On load wait for the submit button */
 
 $(document).ready(function () {
@@ -119,46 +163,13 @@ $(document).ready(function () {
     // hiding on the first load
     hide_charts();
 
-    $(".traceroute-load").click(
-        function () {
-            var target_ip = $("#ip_addr").val();
-            var validation = validate_input(target_ip);
-
-            if (validation) {
-
-                setup_on_request(target_ip);
-
-                // POST request
-
-                $.ajax({
-
-                    type: "post",
-                    data: { ip: target_ip },
-
-                    success: function (data) {
-                        console.log(data)
-                        // Converting from JSON string to the array
-                        trace_array = JSON.parse(data);
-                        console.log("Got the response from the server:");
-                        console.log(trace_array);
-
-                        // Show the charts
-                        show_charts();
-                        // Modify the dom
-                        setup_after_request();
-                        // Append the table with the data
-                        display_data(trace_array);
-
-                    },
-
-                    error: function () {
-                        console.log("No response from the server");
-                    }
-                })
-            }
-
+    $(".traceroute-load").click(process_submission());
+    $(".traceroute-load").keypress(function(e) {
+        if(e.key === "Enter") {
+            process_submission();
         }
-    )
+    })
+
 })
 
 
