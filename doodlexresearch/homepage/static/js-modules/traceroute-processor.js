@@ -164,8 +164,9 @@ $(document).ready(function () {
     hide_charts();
 
     $(".traceroute-load").click(process_submission());
-    $(".traceroute-load").keypress(function(e) {
+    $(".input-traceroute").keypress(function(e) {
         if(e.key === "Enter") {
+            console.log("enter pressed")
             process_submission();
         }
     })
